@@ -1,0 +1,44 @@
+* {
+	font-family: sans-serif;
+	box-sizing: border-box;
+}
+
+.cube {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	background-color: #9cf;
+	background: linear-gradient(to bottom right, #9cf, #5ac);
+	color: #a02;
+	text-shadow: 2px 2px 2px #55a;
+	border: 0.2px solid black;
+	font-size: 23px;
+	line-height: 29px;
+	text-align: center;
+	cursor: pointer;
+}
+
+#container {
+	display: inline-block;
+	margin: auto;
+	position: relative;
+}
+
+.main {
+	width: 320px;
+	margin: auto;
+}
+
+#newgame {
+	cursor: pointer;
+	position: absolute;
+	top: 326px;
+	display: block;
+	width: 300px;
+	height: 100px;
+	margin: auto;
+	background-color: #9cf;
+	background: linear-gradient(to bottom right, #9cf, #5ac);
+	border: none;
+}
+
