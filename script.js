@@ -22,17 +22,18 @@ $(document).ready(function() {
 
 	var elementAdd = function(i) {
 		el = document.createElement('div');
-		el.innerHTML = "<span id='span" + i + "'>" + field[i][0] + "</span>";
-		el.dataset.mines = field[i][1];
 		el.className = "cube";
 		el.style.position = "absolute";
 		el.style.top  = Math.floor(i / 10) * 30 + "px";
 		el.style.left = Math.floor(i % 10) * 30 + "px";
+		if (field[i][0] == "*") el.dataset.mine = true;
+		el.dataset.neighboors = field[i][1];
 		if(!(gameover(field)))
 		el.addEventListener('click', function(e) {
 			this.style.backgroundColor = "#ffcc55";
 			this.style.background = "linear-gradient(to top right, #157, #49b)";
-			this.innerHTML = field[i][1];
+			this.style.color = "#faa";
+			this.innerHTML = this.dataset.mine ? "*" : this.dataset.neighboors;
 		});
 		container.appendChild(el);
 		$('#cube' + i).on('click', function(){
@@ -58,10 +59,19 @@ $(document).ready(function() {
 			if (mines.indexOf(j) < 0) {
 				mines[i] = j;
 				field[j][0] = "*";
-				
 				// Добавление соседей - доработать и вынести в функцию
-				field[j - 1][1] += 1;
-				field[j + 1][1] += 1;
+				if (j % 10 > 0) field[j - 1][1] += 1;
+				if (j % 10 < 9) field[j + 1][1] += 1;
+				if (j >= 10) {
+					field[j - 10][1] += 1;
+					if ((j - 10) % 10 > 0) field[j - 10 - 1][1] += 1;
+					if ((j - 10) % 10 < 9) field[j - 10 + 1][1] += 1;
+				}
+				if (j <= 100 - 10) {
+					field[j + 10][1] += 1;
+					if ((j + 10) % 10 > 0) field[j + 10 - 1][1] += 1;
+					if ((j + 10) % 10 < 9) field[j + 10 + 1][1] += 1;
+				}
 			}
 			if (mines.length >= 10) break;
 		}
