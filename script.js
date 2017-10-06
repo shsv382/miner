@@ -14,7 +14,7 @@ $(document).ready(function() {
 				container.appendChild(br);
 			}
 		elementAdd(i);
-	  }
+		}
 	}
 
 	var gameover = function() {
@@ -26,14 +26,29 @@ $(document).ready(function() {
 		el.style.position = "absolute";
 		el.style.top  = Math.floor(i / 10) * 30 + "px";
 		el.style.left = Math.floor(i % 10) * 30 + "px";
-		if (field[i][0] == "*") el.dataset.mine = true;
-		el.dataset.neighboors = field[i][1];
+		if (field[i][0] == "*") { el.dataset.mine = true; }
+		else { el.dataset.neighboors = field[i][1]; }
 		if(!(gameover(field)))
 		el.addEventListener('click', function(e) {
 			this.style.backgroundColor = "#ffcc55";
 			this.style.background = "linear-gradient(to top right, #157, #49b)";
 			this.style.color = "#faa";
-			this.innerHTML = this.dataset.mine ? "*" : this.dataset.neighboors;
+			if (this.dataset.mine) { this.innerHTML = "*"; }
+			else { if (this.dataset.neighboors == 0) { 
+					this.innerHTML = "";
+				} 
+				else { this.innerHTML = this.dataset.neighboors; }
+			}
+			if (this.dataset.neighboors == 0 && (i % 10) > 0) {
+				var event = new Event("click");
+				document.getElementsByClassName("cube")[i - 1].dispatchEvent(event);
+			}
+			
+			if (this.dataset.neighboors == 0 && i > 10) {
+				var event = new Event("click");
+				document.getElementsByClassName("cube")[i - 10].dispatchEvent(event);
+			}
+			
 		});
 		container.appendChild(el);
 		$('#cube' + i).on('click', function(){
@@ -78,3 +93,18 @@ $(document).ready(function() {
 	}
 	
 });
+
+
+		/*var cubes = document.getElementsByClassName("cube");
+		var event = new Event("click");
+		for (var k = 0; k < cubes.length; k++) {
+			cubes[k].addEventListener('click', function(e) {
+				if (this.dataset.neighboors == "0") {
+					this.nextSibling.dispatchEvent(event);
+					this.previousSibling.dispatchEvent(event);
+				}
+			});*/
+		//	var left  = document.getElementsByClassName("cube")[i - 1];
+		//	var right = document.getElementsByClassName("cube")[i + 1]; 
+		//	if ((i % 10) > 0)  left.dispatchEvent(event);
+		//	if ((i % 10) < 9) right.dispatchEvent(event);
