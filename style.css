@@ -42,3 +42,8 @@
 	border: none;
 }
 
+.clicked {
+	background-color: #ffcc55;
+	background: linear-gradient(to top right, #157, #49b);
+	color: #faa;
+}

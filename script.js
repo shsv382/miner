@@ -30,9 +30,7 @@ $(document).ready(function() {
 		else { el.dataset.neighboors = field[i][1]; }
 		if(!(gameover(field)))
 		el.addEventListener('click', function(e) {
-			this.style.backgroundColor = "#ffcc55";
-			this.style.background = "linear-gradient(to top right, #157, #49b)";
-			this.style.color = "#faa";
+			this.classList.add("clicked");
 			if (this.dataset.mine) { this.innerHTML = "*"; }
 			else { if (this.dataset.neighboors == 0) { 
 					this.innerHTML = "";
@@ -41,14 +39,27 @@ $(document).ready(function() {
 			}
 			if (this.dataset.neighboors == 0 && (i % 10) > 0) {
 				var event = new Event("click");
-				document.getElementsByClassName("cube")[i - 1].dispatchEvent(event);
+				var left = document.getElementsByClassName("cube")[i - 1];
+				if (!left.classList.contains("clicked")) left.dispatchEvent(event);
 			}
 			
 			if (this.dataset.neighboors == 0 && i > 10) {
 				var event = new Event("click");
-				document.getElementsByClassName("cube")[i - 10].dispatchEvent(event);
+				var top = document.getElementsByClassName("cube")[i - 10];
+				if (!top.classList.contains("clicked")) top.dispatchEvent(event);
+			}
+
+			if (this.dataset.neighboors == 0 && (i % 10) < 9) {
+				var event = new Event("click");
+				var right = document.getElementsByClassName("cube")[i + 1];
+				if (!right.classList.contains("clicked")) right.dispatchEvent(event);
 			}
 			
+			if (this.dataset.neighboors == 0 && i < (100 - 10)) {
+				var event = new Event("click");
+				var bottom = document.getElementsByClassName("cube")[i + 10];
+				if (!bottom.classList.contains("clicked")) bottom.dispatchEvent(event);
+			}
 		});
 		container.appendChild(el);
 		$('#cube' + i).on('click', function(){
