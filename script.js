@@ -1,6 +1,8 @@
 $(document).ready(function() {
 	
 	var field;
+
+	var counter = 0;
 	
 	new_game();
 	
@@ -26,12 +28,21 @@ $(document).ready(function() {
 		el.style.position = "absolute";
 		el.style.top  = Math.floor(i / 10) * 30 + "px";
 		el.style.left = Math.floor(i % 10) * 30 + "px";
+		el.oncontextmenu = function(e) {
+				this.innerHTML = this.innerHTML == "" ? "*" : "";
+				return false;
+		}
 		if (field[i][0] == "*") { el.dataset.mine = true; }
 		else { el.dataset.neighboors = field[i][1]; }
 		if(!(gameover(field)))
 		el.addEventListener('click', function(e) {
 			this.classList.add("clicked");
-			if (this.dataset.mine) { this.innerHTML = "*"; }
+			counter += 1;
+			if (this.dataset.mine) { 
+				this.innerHTML = "*"; 
+				gameover();
+			}
+			if (counter == (100 - 10)) gameover();
 			else { if (this.dataset.neighboors == 0) { 
 					this.innerHTML = "";
 				} 
@@ -76,6 +87,7 @@ $(document).ready(function() {
 	
 	function new_game() { 
 		field = [];
+		counter = 0;
 		var mines = [];
 		for (var i = 0; i < 100; i++) {
 			field[i] = ["", 0];
@@ -85,7 +97,6 @@ $(document).ready(function() {
 			if (mines.indexOf(j) < 0) {
 				mines[i] = j;
 				field[j][0] = "*";
-				// Добавление соседей - доработать и вынести в функцию
 				if (j % 10 > 0) field[j - 1][1] += 1;
 				if (j % 10 < 9) field[j + 1][1] += 1;
 				if (j >= 10) {
@@ -102,20 +113,13 @@ $(document).ready(function() {
 			if (mines.length >= 10) break;
 		}
 	}
+
+	var gameover = function() {		
+		container.innerHTML = "";
+		var header = document.createElement('h1');
+		header.id = "gameover";
+		header.innerHTML = counter == (100 - 10) ? "You win" : "Game over!";
+		container.appendChild(header);
+	}
 	
 });
-
-
-		/*var cubes = document.getElementsByClassName("cube");
-		var event = new Event("click");
-		for (var k = 0; k < cubes.length; k++) {
-			cubes[k].addEventListener('click', function(e) {
-				if (this.dataset.neighboors == "0") {
-					this.nextSibling.dispatchEvent(event);
-					this.previousSibling.dispatchEvent(event);
-				}
-			});*/
-		//	var left  = document.getElementsByClassName("cube")[i - 1];
-		//	var right = document.getElementsByClassName("cube")[i + 1]; 
-		//	if ((i % 10) > 0)  left.dispatchEvent(event);
-		//	if ((i % 10) < 9) right.dispatchEvent(event);
