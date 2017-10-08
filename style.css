@@ -3,6 +3,10 @@
 	box-sizing: border-box;
 }
 
+body {
+	overflow: hidden;
+}
+
 .cube {
 	display: inline-block;
 	width: 30px;
@@ -19,27 +23,28 @@
 }
 
 #container {
-	display: inline-block;
+	display: block;
 	margin: auto;
 	position: relative;
 }
 
-.main {
-	width: 320px;
-	margin: auto;
-}
-
 #newgame {
 	cursor: pointer;
-	position: absolute;
-	top: 326px;
 	display: block;
-	width: 300px;
+	width: 100%;
 	height: 100px;
 	margin: auto;
 	background-color: #9cf;
 	background: linear-gradient(to bottom right, #9cf, #5ac);
 	border: none;
+	position: absolute;
+	bottom: 0; left: 0;
+}
+
+@media screen and (max-width: 320px) {
+	#newgame {
+		height: 30px;
+	}
 }
 
 .clicked {
@@ -49,13 +54,21 @@
 }
 
 #gameover {
-	height: 300px;
-	width: 300px;
+	width: 100%;
+	position: absolute;
+	top: -55px; left: 0;
 	color: #faa;
-	background-color: #ffcc55;
-	background: linear-gradient(to top left, #157, #49b);
+	background: #ffcc55;
+	background: linear-gradient(to top left, rgba(16, 80, 112, 0.4), 
+											rgba(64, 144, 176, 0.4));
 	text-align: center;
 	font-size: 5em;
 	text-shadow: 2px 2px 2px #157;
-	line-height: 120px;
+	vertical-align: middle;
+}
+
+h3 {
+	width: 350px;
+	text-align: center;
+	margin: auto;
 }
